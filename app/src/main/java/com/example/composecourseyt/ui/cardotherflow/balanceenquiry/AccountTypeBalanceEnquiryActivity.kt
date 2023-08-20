@@ -1,4 +1,4 @@
-package com.example.composecourseyt.ui.cardotherflow
+package com.example.composecourseyt.ui.cardotherflow.balanceenquiry
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -19,6 +21,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -28,13 +31,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composecourseyt.R
 import com.example.composecourseyt.ui.PaymentActivity
+import com.example.composecourseyt.ui.cashflow.cashwithdraw.AccountOptionWithdrawal
 
-class CashRefundActivity : ComponentActivity() {
+class AccountTypeBalanceEnquiryActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val amount = intent.getStringExtra("amount")
         val intent = Intent(this, PaymentActivity::class.java)
-
         intent.putExtra("amount", amount)
         setContent {
 
@@ -43,36 +46,40 @@ class CashRefundActivity : ComponentActivity() {
                     .fillMaxSize()
                     .background(Color.White)
                     .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ){
-                CashRefundPage(amount, onBackClicked = { onBackPressed() })
-
-
+                BalanceEnquiryPage(amount, onBackClicked = { onBackPressed() })
             }
         }
     }
 }
 
 @Composable
-fun CashRefundPage(
+fun BalanceEnquiryPage(
     amount: String?,
-    onBackClicked: () -> Unit
-
+    onBackClicked: () -> Unit,
 ){
-    val context= LocalContext.current
+    val context = LocalContext.current
     Column(
-        modifier= Modifier
-            .fillMaxSize()
-    ) {
-        CashRefundHeader(onBackClicked)
-
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ){
+        BalanceEnquiryHeader(onBackClicked)
+        AccountOptionWithdrawal(
+            onClickAccountType = {
+                val intent = Intent(context, InsertCardBalanceEnquiryActivity::class.java)
+                intent.putExtra("amount", amount)
+                context.startActivity(intent)
+            },
+        )
 
     }
 }
 
 @Composable
-fun CashRefundHeader(onBackClicked: () -> Unit){
-
+fun BalanceEnquiryHeader(onBackClicked: () -> Unit){
     val returnArrow= painterResource(id = R.drawable.returnarrow)
     Row(
         modifier = Modifier
@@ -90,7 +97,7 @@ fun CashRefundHeader(onBackClicked: () -> Unit){
         )
         Spacer(modifier = Modifier.width(82.dp))
         Text(
-            text = "Cash Refund",
+            text = "Balance Enquiry",
             fontSize = 24.sp,
             fontWeight = FontWeight(700),
             color = Color(0xFF222222),

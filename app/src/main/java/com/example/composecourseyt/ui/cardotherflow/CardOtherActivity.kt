@@ -36,6 +36,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composecourseyt.R
 import com.example.composecourseyt.ui.PaymentActivity
+import com.example.composecourseyt.ui.cardotherflow.balanceenquiry.AccountTypeBalanceEnquiryActivity
+import com.example.composecourseyt.ui.cardotherflow.cashadvance.CashAdvanceActivity
+import com.example.composecourseyt.ui.cardotherflow.cashback.CashBackActivity
+import com.example.composecourseyt.ui.cardotherflow.cashrefund.CashRefundActivity
 
 class CardOtherActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +89,16 @@ fun CardOtherPage(
                 intent.putExtra("amount", amount)
                 context.startActivity(intent)
             },
+            onCashAdvanceClick =  {
+                val intent = Intent(context, CashAdvanceActivity::class.java)
+                intent.putExtra("amount", amount)
+                context.startActivity(intent)
+            },
+            onCashBackClick =  {
+                val intent = Intent(context, CashBackActivity::class.java)
+                intent.putExtra("amount", amount)
+                context.startActivity(intent)
+            },
         )
 
     }
@@ -127,7 +141,9 @@ fun CardOtherHeader(onBackClicked: () -> Unit){
 @Composable
 fun CardOptions(
     onBalanceEnquiryClick: ()-> Unit,
-    onCashRefundClick: ()->Unit
+    onCashRefundClick: ()->Unit,
+    onCashAdvanceClick: ()->Unit,
+    onCashBackClick: ()->Unit
 ){
     val context = LocalContext.current
 
@@ -223,7 +239,7 @@ fun CardOptions(
                 .width(330.dp)
                 .height(63.dp)
                 .padding(start = 16.dp, top = 22.dp, end = 16.dp, bottom = 22.dp)
-//                .clickable { onClickAccountType() }
+                .clickable { onCashAdvanceClick() }
         ) {
             Text(
                 text = "Cash Advance",
@@ -252,7 +268,7 @@ fun CardOptions(
                 .width(330.dp)
                 .height(63.dp)
                 .padding(start = 16.dp, top = 22.dp, end = 16.dp, bottom = 22.dp)
-//                .clickable { onClickAccountType() }
+                .clickable { onCashBackClick() }
         ) {
             Text(
                 text = "Cash Back",

@@ -1,4 +1,4 @@
-package com.example.composecourseyt.ui.cardotherflow
+package com.example.composecourseyt.ui.cardotherflow.cashrefund
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.example.composecourseyt.ui.otherflows.EnterPinActivity
 import com.example.composecourseyt.ui.cashflow.cashwithdraw.InsertCardWithdraw
 import com.example.composecourseyt.ui.cashflow.cashwithdraw.PriceForInsertWithdraw
+import com.example.composecourseyt.ui.otherflows.EnterPinActivity
 
-class InsertCardBalanceEnquiryActivity : ComponentActivity() {
+class InsertCardCashRefundActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val amount = intent.getStringExtra("amount")
@@ -39,7 +39,7 @@ class InsertCardBalanceEnquiryActivity : ComponentActivity() {
                 verticalArrangement = Arrangement.Top
             ) {
 //            SuccessfulTransaction(amount)
-                InsertCardBalanceEnquiry(amount, onBackClicked = { onBackPressed() },
+                InsertCardCashRefund(amount, onBackClicked = { onBackPressed() },
                 )
             }
 
@@ -47,9 +47,8 @@ class InsertCardBalanceEnquiryActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
-fun InsertCardBalanceEnquiry(
+fun InsertCardCashRefund(
     amount: String?,
     onBackClicked: () -> Unit
 ){
@@ -60,7 +59,7 @@ fun InsertCardBalanceEnquiry(
             .fillMaxWidth()
             .fillMaxHeight()
     ) {
-        BalanceEnquiryHeader(onBackClicked)
+        CashRefundHeader(onBackClicked)
         PriceForInsertWithdraw(amount)
         InsertCardWithdraw(gradient = Brush.horizontalGradient(
             colors = listOf(Color(0xFF134E5E), Color(0xFF71B280))

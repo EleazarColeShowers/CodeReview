@@ -38,9 +38,14 @@
         <activity android:name=".ui.cardpurchaseflow.AccountTypePurchaseActivity" />
         <activity android:name=".ui.cardpurchaseflow.InsertCardPurchaseActivity" />
         <activity android:name=".ui.cardotherflow.CardOtherActivity" />
-        <activity android:name=".ui.cardotherflow.AccountTypeBalanceEnquiryActivity" />
-        <activity android:name=".ui.cardotherflow.InsertCardBalanceEnquiryActivity"/>
-        <activity android:name=".ui.cardotherflow.CashRefundActivity"/>
+        <activity android:name=".ui.cardotherflow.balanceenquiry.AccountTypeBalanceEnquiryActivity" />
+        <activity android:name=".ui.cardotherflow.balanceenquiry.InsertCardBalanceEnquiryActivity"/>
+        <activity android:name=".ui.cardotherflow.cashrefund.CashRefundActivity"/>
+        <activity android:name=".ui.cardotherflow.cashrefund.InsertCardCashRefundActivity"/>
+        <activity android:name=".ui.cardotherflow.cashadvance.CashAdvanceActivity"/>
+        <activity android:name=".ui.cardotherflow.cashadvance.InsertCardCashAdvanceActivity"/>
+        <activity android:name=".ui.cardotherflow.cashback.CashBackActivity"/>
+        <activity android:name=".ui.cardotherflow.cashback.InsertCardCashBackActivity"/>
     </application>
 
 

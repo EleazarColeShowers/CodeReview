@@ -261,6 +261,34 @@ fun AccountOptionWithdrawal(onClickAccountType:() -> Unit){
                 color= Color.Black,
             )
         }
+        Spacer(modifier = Modifier.height(29.dp))
+        Column(
+
+            modifier = Modifier
+                .shadow(
+                    elevation = 2.dp,
+                    spotColor = Color(0x5E496779),
+                    ambientColor = Color(0x5E496779)
+                )
+                .border(
+                    width = 1.dp,
+                    color = Color(0x0D496779),
+                    shape = RoundedCornerShape(size = 8.dp)
+                )
+                .width(330.dp)
+                .height(63.dp)
+                .padding(start = 16.dp, top = 22.dp, end = 16.dp, bottom = 22.dp)
+                .clickable { onClickAccountType() }
+        ) {
+            Text(
+                text = "Default Account",
+                fontSize = 16.sp,
+                fontWeight = FontWeight(600),
+                textAlign = TextAlign.Center,
+                letterSpacing = 0.04.sp,
+                color= Color.Black,
+            )
+        }
 
     }
 }
