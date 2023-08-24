@@ -76,7 +76,7 @@ fun EnterPinPage(amount: String?, onBackClicked: () -> Unit){
                     colors = listOf(Color(0xFF134E5E), Color(0xFF71B280))
                 ),
                 onClickNext = {
-                    val intent = Intent(context, PrintActivity::class.java)
+                    val intent = Intent(context, CustomerPrintActivity::class.java)
                     intent.putExtra("amount", amount)
                     context.startActivity(intent)
                 }
@@ -174,7 +174,7 @@ fun InputPin(){
             color = Color(0xFFCBDEF5),
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .padding(start = 100.dp, top=11.dp)
+                .padding(start = 100.dp, top=7.dp)
         )
         
     }
@@ -185,7 +185,7 @@ fun InputPinNumber(onClickNumber: (String) -> Unit, onDeleteNumber: () -> Unit, 
 
     Column(
         modifier = Modifier
-            .padding(top = 20.dp, start = 0.dp)
+            .padding(top = 10.dp, start = 0.dp)
             .fillMaxWidth()
     ) {
         Row(
