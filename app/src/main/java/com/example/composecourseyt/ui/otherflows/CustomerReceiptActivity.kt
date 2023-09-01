@@ -1,5 +1,6 @@
 package com.example.composecourseyt.ui.otherflows
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,7 +23,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -33,6 +38,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.example.composecourseyt.R
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -41,18 +48,124 @@ class CustomerPrintActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val amount = intent.getStringExtra("amount")
+
+
         setContent {
-            Column (
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.White)
-                    .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-        ) {
-            CustomerReceiptPage(amount)
+            var isPopupVisible by remember { mutableStateOf(true) }
+
+            if (isPopupVisible) {
+                PopupScreen(
+                    amount = amount,
+                    onDismiss = { isPopupVisible = false },
+                    gradient = Brush.horizontalGradient(
+                        colors = listOf(Color(0xFF134E5E), Color(0xFF71B280))
+                    ),
+                    onClickClose ={
+                        val intent = Intent(this@CustomerPrintActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                )
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.White)
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top
+                ) {
+                    CustomerReceiptPage(amount)
+                }
+            }
         }
     }
+}
+@Composable
+fun PopupScreen(amount: String?, onDismiss: () -> Unit,gradient: Brush,onClickClose: () -> Unit) {
+    // Define the fixed width and height for the pop-up
+    val popupWidth = 328.dp
+    val popupHeight = 454.dp
+    val successfulTransaction= painterResource(id = R.drawable.transaction_successful)
+    val printIcon= painterResource(id = R.drawable.print_icon)
+    val context = LocalContext.current
+
+
+    // Create a Dialog to display the pop-up content
+    Dialog(
+        onDismissRequest = { onDismiss() },
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = true
+        )
+    ) {
+        Box(
+            modifier = Modifier
+                .size(popupWidth, popupHeight)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(7.dp)
+                    .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(size = 10.dp)),                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                Image(
+                    painter = successfulTransaction,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(171.dp)
+                )
+
+                Text(
+                    text = "Transaction Approved",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight(700),
+                    color = Color(0xFF000000),
+                )
+                Spacer(modifier = Modifier.height(69.dp))
+                Column(
+                    modifier = Modifier
+                        .background(gradient, shape = RoundedCornerShape(8.dp))
+                        .padding(16.dp)
+                        .width(250.dp)
+                        .height(20.dp)
+                        .clickable {
+                            onDismiss()
+                        }
+                ) {
+                    Row() {
+                        Text(
+                            text = "Print Receipt",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight(700),
+                            color = Color(0xFFFFFFFF),
+                            modifier= Modifier
+                                .padding(start = 70.dp)
+                        )
+                        Image(
+                            painter = printIcon,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(24.dp)
+                                .padding(1.dp)
+
+                        )
+                    }
+                }
+                Text(
+                    text = "Home",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(700),
+                    color = Color(0xFF000000),
+                    modifier = Modifier
+                        .padding(start = 5.dp, top = 16.5.dp)
+                        .clickable {
+                            onClickClose()
+                        }
+                    )
+            }
+        }
     }
 }
 
@@ -73,7 +186,11 @@ fun CustomerReceiptPage(
         CustomerFooter(
             gradient = Brush.horizontalGradient(
                 colors = listOf(Color(0xFF134E5E), Color(0xFF71B280))
-            )
+            ),
+            onClickClose ={
+                val intent = Intent(context, MainActivity::class.java)
+                context.startActivity(intent)
+            }
         )
     }
 }
@@ -158,7 +275,7 @@ fun MerchantInfo(){
             )
             Spacer(modifier = Modifier.width(175.dp))
             Text(
-                text = "$currentDateAndTime pm",
+                text = "$currentDateAndTime",
                 fontSize = 10.sp,
                 fontWeight = FontWeight(500),
                 color = Color(0xFF202020),
@@ -222,28 +339,9 @@ fun PageContent(amount: String?){
                 fontWeight = FontWeight(500),
                 color = Color(0xFF555555),
             )
-            Spacer(modifier = Modifier.width(195.dp))
+            Spacer(modifier = Modifier.width(189.dp))
             Text(
-                text = "Cash Deposit",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF202020),
-                textAlign = TextAlign.Right,
-            )
-        }
-        Row(
-            modifier = Modifier
-                .padding(start = 24.dp, top=15.14.dp)
-        ) {
-            Text(
-                text = "Card Number",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF555555),
-            )
-            Spacer(modifier = Modifier.width(190.dp))
-            Text(
-                text = "5199********8900",
+                text = "Cash Payment",
                 fontSize = 10.sp,
                 fontWeight = FontWeight(500),
                 color = Color(0xFF202020),
@@ -274,120 +372,6 @@ fun PageContent(amount: String?){
                 .padding(start = 24.dp, top=15.14.dp)
         ) {
             Text(
-                text = "Card Type",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF555555),
-            )
-            Spacer(modifier = Modifier.width(237.dp))
-            Text(
-                text = "Debit Card",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF202020),
-                textAlign = TextAlign.Right,
-            )
-        }
-        Row(
-            modifier = Modifier
-                .padding(start = 24.dp, top=15.14.dp)
-        ) {
-            Text(
-                text = "Account Type",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF555555),
-            )
-            Spacer(modifier = Modifier.width(235.dp))
-            Text(
-                text = "Savings",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF202020),
-                textAlign = TextAlign.Right,
-            )
-        }
-        Row(
-            modifier = Modifier
-                .padding(start = 24.dp, top=15.14.dp)
-        ) {
-            Text(
-                text = "Expiry Date",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF555555),
-            )
-            Spacer(modifier = Modifier.width(252.dp))
-            Text(
-                text = "04/24",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF202020),
-                textAlign = TextAlign.Right,
-            )
-        }
-        Row(
-            modifier = Modifier
-                .padding(start = 24.dp, top=15.14.dp)
-        ) {
-            Text(
-                text = "Stan",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF555555),
-            )
-            Spacer(modifier = Modifier.width(275.dp))
-            Text(
-                text = "294082",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF202020),
-                textAlign = TextAlign.Right,
-            )
-        }
-        Row(
-            modifier = Modifier
-                .padding(start = 24.dp, top=15.14.dp)
-        ) {
-            Text(
-                text = "Authorization Code",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF555555),
-            )
-            Spacer(modifier = Modifier.width(210.dp))
-            Text(
-                text = "294082",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF202020),
-                textAlign = TextAlign.Right,
-            )
-        }
-        Row(
-            modifier = Modifier
-                .padding(start = 24.dp, top=15.14.dp)
-        ) {
-            Text(
-                text = "Authorization Method",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF555555),
-            )
-            Spacer(modifier = Modifier.width(215.dp))
-            Text(
-                text = "PIN",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF202020),
-                textAlign = TextAlign.Right,
-            )
-        }
-        Row(
-            modifier = Modifier
-                .padding(start = 24.dp, top=15.14.dp)
-        ) {
-            Text(
                 text = "RNN",
                 fontSize = 10.sp,
                 fontWeight = FontWeight(500),
@@ -396,26 +380,6 @@ fun PageContent(amount: String?){
             Spacer(modifier = Modifier.width(244.dp))
             Text(
                 text = "004145800636",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF202020),
-                textAlign = TextAlign.Right,
-            )
-        }
-
-        Row(
-            modifier = Modifier
-                .padding(start = 24.dp, top=15.14.dp)
-        ) {
-            Text(
-                text = "Response Code",
-                fontSize = 10.sp,
-                fontWeight = FontWeight(500),
-                color = Color(0xFF555555),
-            )
-            Spacer(modifier = Modifier.width(245.dp))
-            Text(
-                text = "91",
                 fontSize = 10.sp,
                 fontWeight = FontWeight(500),
                 color = Color(0xFF202020),
@@ -465,7 +429,7 @@ fun PageContent(amount: String?){
 }
 
 @Composable
-fun CustomerFooter(gradient: Brush,){
+fun CustomerFooter(gradient: Brush,onClickClose: () -> Unit){
     Column(
         modifier = Modifier
             .padding(top= 37.dp)
@@ -520,7 +484,11 @@ fun CustomerFooter(gradient: Brush,){
             fontSize = 16.sp,
             fontWeight = FontWeight(700),
             modifier = Modifier
-                .padding(start= 165.dp)
+                .padding(start = 165.dp)
+                .clickable {
+                    onClickClose()
+                }
         )
+        Spacer(modifier = Modifier.height(73.dp))
     }
 }

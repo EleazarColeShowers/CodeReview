@@ -48,6 +48,8 @@
         <activity android:name=".ui.cardotherflow.cashback.InsertCardCashBackActivity"/>
         <activity android:name=".ui.otherflows.CustomerPrintActivity"/>
         <activity android:name=".ui.otherflows.MerchantPrintActivity"/>
+        <activity android:name=".ui.cardotherflow.reversaltransfer.TransactionHistoryActivity"/>
+        <activity android:name=".ui.otherflows.CustomerOtherReceipt"/>
     </application>
 
 

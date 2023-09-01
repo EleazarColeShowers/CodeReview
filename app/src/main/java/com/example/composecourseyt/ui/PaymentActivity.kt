@@ -215,7 +215,7 @@ fun PayBy(
     val column2TextColor = if (isSwapped) Color(0xFF555555) else Color(0xFFDD0A35)
 
     val column1Image = if (isSwapped) painterResource(id = R.drawable.credit_card_2) else painterResource(id = R.drawable.credit_card_1)
-    val column2Image = if (isSwapped) painterResource(id = R.drawable.cashh) else painterResource(id = R.drawable.cashh_2)
+    val column2Image = if (isSwapped) painterResource(id = R.drawable.gradientcash) else painterResource(id = R.drawable.cashh_2)
 
     Row(
         modifier = Modifier

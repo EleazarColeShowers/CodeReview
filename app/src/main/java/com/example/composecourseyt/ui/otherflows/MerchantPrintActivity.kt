@@ -9,9 +9,7 @@ class MerchantPrintActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         val amount = intent.getStringExtra("amount")
         setContent {
-            EnterPinPage(amount){
-                onBackPressed()
-            }
+            CustomerReceiptPage(amount)
         }
     }
 }

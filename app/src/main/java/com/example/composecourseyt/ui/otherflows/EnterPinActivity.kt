@@ -40,6 +40,7 @@ class EnterPinActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         val amount = intent.getStringExtra("amount")
         setContent {
+
             EnterPinPage(amount){
                 onBackPressed()
             }
@@ -121,7 +122,7 @@ fun EnterPinHeader(onBackClicked: () -> Unit){
 fun PriceForPin(amount: String?){
     Column(
         modifier = Modifier
-            .padding(top = 41.5.dp,)
+            .padding(top = 40.dp,)
             .fillMaxWidth()
     ) {
         Text(
@@ -143,7 +144,7 @@ fun PriceForPin(amount: String?){
             color = Color(0xFF000000),
             letterSpacing = 1.sp,
             modifier = Modifier
-                .padding(top=18.dp, start = 143.dp)
+                .padding(top=18.dp, start = 140.dp)
         )
     }
 
@@ -174,7 +175,7 @@ fun InputPin(){
             color = Color(0xFFCBDEF5),
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .padding(start = 100.dp, top=7.dp)
+                .padding(start = 90.dp, top=7.dp)
         )
         
     }
@@ -190,7 +191,7 @@ fun InputPinNumber(onClickNumber: (String) -> Unit, onDeleteNumber: () -> Unit, 
     ) {
         Row(
             modifier = Modifier
-                .padding(start = 50.dp, top = 10.dp)
+                .padding(start = 30.dp, top = 10.dp)
                 .fillMaxWidth()
 
 
@@ -281,7 +282,7 @@ fun InputPinNumber(onClickNumber: (String) -> Unit, onDeleteNumber: () -> Unit, 
         }
         Row(
             modifier = Modifier
-                .padding(start = 50.dp, top = 17.dp)
+                .padding(start = 30.dp, top = 17.dp)
                 .fillMaxWidth()
 
 
@@ -372,7 +373,7 @@ fun InputPinNumber(onClickNumber: (String) -> Unit, onDeleteNumber: () -> Unit, 
         }
         Row(
             modifier = Modifier
-                .padding(start = 50.dp, top = 17.dp)
+                .padding(start = 30.dp, top = 17.dp)
                 .fillMaxWidth()
 
 
@@ -463,7 +464,7 @@ fun InputPinNumber(onClickNumber: (String) -> Unit, onDeleteNumber: () -> Unit, 
         }
         Row(
             modifier = Modifier
-                .padding(start = 50.dp, top = 17.dp)
+                .padding(start = 30.dp, top = 17.dp)
                 .fillMaxWidth()
 
 
@@ -547,12 +548,8 @@ fun InputPinNumber(onClickNumber: (String) -> Unit, onDeleteNumber: () -> Unit, 
                 )
             }
         }
-        Spacer(modifier = Modifier.height(124.dp))
-        Column(
-            modifier = Modifier
-                .padding(start = 0.dp,)
-                .fillMaxWidth()
-        ) {
+        Spacer(modifier = Modifier.height(44.dp))
+
             Column(
                 modifier = Modifier
 
@@ -561,9 +558,9 @@ fun InputPinNumber(onClickNumber: (String) -> Unit, onDeleteNumber: () -> Unit, 
                         spotColor = Color(0x08000000),
                         ambientColor = Color(0x08000000)
                     )
-                    .width(370.dp)
+                    .width(350.dp)
                     .height(51.dp)
-                    .padding(start = 64.dp)
+                    .padding(start = 16.dp)
                     .background(gradient, shape = RoundedCornerShape(size = 8.dp))
                     .clickable{
                         onClickNext()
@@ -578,10 +575,10 @@ fun InputPinNumber(onClickNumber: (String) -> Unit, onDeleteNumber: () -> Unit, 
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(35.dp)
-                        .padding(top= 15.dp, start = 140.dp)
+                        .padding(start = 150.dp, top = 12.dp)
                 )
             }
-        }
+
     }
 
 

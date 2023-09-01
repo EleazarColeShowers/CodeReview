@@ -40,6 +40,7 @@ import com.example.composecourseyt.ui.cardotherflow.balanceenquiry.AccountTypeBa
 import com.example.composecourseyt.ui.cardotherflow.cashadvance.CashAdvanceActivity
 import com.example.composecourseyt.ui.cardotherflow.cashback.CashBackActivity
 import com.example.composecourseyt.ui.cardotherflow.cashrefund.CashRefundActivity
+import com.example.composecourseyt.ui.cardotherflow.reversaltransfer.TransactionHistoryActivity
 
 class CardOtherActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +100,11 @@ fun CardOtherPage(
                 intent.putExtra("amount", amount)
                 context.startActivity(intent)
             },
+            onReversalTransferClick= {
+                val intent = Intent(context, TransactionHistoryActivity::class.java)
+                intent.putExtra("amount", amount)
+                context.startActivity(intent)
+            }
         )
 
     }
@@ -143,7 +149,8 @@ fun CardOptions(
     onBalanceEnquiryClick: ()-> Unit,
     onCashRefundClick: ()->Unit,
     onCashAdvanceClick: ()->Unit,
-    onCashBackClick: ()->Unit
+    onCashBackClick: ()->Unit,
+    onReversalTransferClick: ()->Unit
 ){
     val context = LocalContext.current
 
@@ -297,7 +304,8 @@ fun CardOptions(
                 .width(330.dp)
                 .height(63.dp)
                 .padding(start = 16.dp, top = 22.dp, end = 16.dp, bottom = 22.dp)
-//                .clickable { onClickAccountType() }
+                .clickable { onReversalTransferClick() }
+
         ) {
             Text(
                 text = "Reversal Transfer",
